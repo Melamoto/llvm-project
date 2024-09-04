@@ -504,7 +504,8 @@ static bool checkInstructions(const DebugInstMap &DILocsBefore,
     auto CreateJSONBugEntry = [&](const char *Action) {
       Bugs.push_back(llvm::json::Object({
         {"metadata", "DILocation"}, {"fn-name", FnName.str()},
-            {"bb-name", BBName.str()}, {"instr", InstName}, {"action", Action},
+            {"bb-name", BBName.str()}, {"instr-name", InstLabel},
+            {"instr", InstName}, {"action", Action},
 #if ENABLE_DEBUGLOC_ORIGIN_TRACKING
             {"origin", symbolizeStackTrace(Instr)},
 #endif
