@@ -74,6 +74,8 @@ public:
     LastBisectNum = 0;
   }
 
+  int getBisectNum() { return LastBisectNum; }
+
   static const int Disabled = std::numeric_limits<int>::max();
 
 private:

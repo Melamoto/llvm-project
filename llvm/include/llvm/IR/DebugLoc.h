@@ -29,8 +29,12 @@ namespace llvm {
 #if ENABLE_DEBUGLOC_ORIGIN_TRACKING
   struct DbgLocOrigin {
     static constexpr unsigned long MaxDepth = 16;
-    using StackTracesTy =
-        SmallVector<std::pair<int, std::array<void *, MaxDepth>>, 0>;
+    struct StackTrace {
+      int OptBisectCount;
+      int Depth;
+      std::array<void *, MaxDepth> Frames;
+    };
+    using StackTracesTy = SmallVector<StackTrace, 0>;
     StackTracesTy StackTraces;
     DbgLocOrigin(bool ShouldCollectTrace);
     void addTrace();
