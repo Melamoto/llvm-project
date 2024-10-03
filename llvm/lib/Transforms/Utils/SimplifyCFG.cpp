@@ -5756,7 +5756,8 @@ static void createUnreachableSwitchDefault(SwitchInst *Switch,
   BasicBlock *NewDefaultBlock = BasicBlock::Create(
       BB->getContext(), BB->getName() + ".unreachabledefault", BB->getParent(),
       OrigDefaultBlock);
-  new UnreachableInst(Switch->getContext(), NewDefaultBlock);
+  auto *UI = new UnreachableInst(Switch->getContext(), NewDefaultBlock);
+  UI->setDebugLoc(DebugLoc::getTemporary());
   Switch->setDefaultDest(&*NewDefaultBlock);
   if (DTU) {
     SmallVector<DominatorTree::UpdateType, 2> Updates;
