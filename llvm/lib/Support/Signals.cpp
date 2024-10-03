@@ -345,11 +345,11 @@ void sys::symbolizeAddresses(AddressSet &Addresses,
       StringRef FunctionName = *CurLine++;
       if (FunctionName.empty())
         break;
-      // Add indentation for lines after the first; we use 3 spaces, because
+      // Add indentation for lines after the first; we use 4 spaces, because
       // currently that aligns with the expected indentation that will be added
       // to the first line by Debugify.
       if (!IsFirst)
-        OS << "   ";
+        OS << "    ";
       OS << format_ptr(AddressList[i]) << ' ';
       if (!FunctionName.starts_with("??"))
         OS << FunctionName << ' ';
