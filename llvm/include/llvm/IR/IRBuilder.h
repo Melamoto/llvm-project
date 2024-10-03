@@ -287,7 +287,7 @@ public:
     // If I does not have an existing DebugLoc and no DebugLoc has been set
     // here, we copy our DebugLoc to I anyway, because more likely than not I
     // is a new instruction whose DL should originate from this builder.
-    if (HasExplicitDL || !I->getDebugLoc())
+    if (HasExplicitDL && (StoredDL || !I->getDebugLoc()))
       I->setDebugLoc(StoredDL.getCopied());
   }
 
