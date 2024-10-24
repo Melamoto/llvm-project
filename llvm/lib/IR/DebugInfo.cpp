@@ -984,7 +984,7 @@ void Instruction::updateLocationAfterHoist() { dropLocation(); }
 void Instruction::dropLocation() {
   const DebugLoc &DL = getDebugLoc();
   if (!DL) {
-    setDebugLoc(DebugLoc::getLineZero());
+    setDebugLoc(DebugLoc::getDropped());
     return;
   }
 
@@ -998,7 +998,7 @@ void Instruction::dropLocation() {
   }
 
   if (!MayLowerToCall) {
-    setDebugLoc(DebugLoc::getLineZero());
+    setDebugLoc(DebugLoc::getDropped());
     return;
   }
 
@@ -1017,7 +1017,7 @@ void Instruction::dropLocation() {
     //
     // One alternative is to set a line 0 location with the existing scope and
     // inlinedAt info. The location might be sensitive to when inlining occurs.
-    setDebugLoc(DebugLoc::getLineZero());
+    setDebugLoc(DebugLoc::getDropped());
 }
 
 //===----------------------------------------------------------------------===//

@@ -55,6 +55,8 @@ namespace llvm {
     // DebugLoc intentionally does not have a valid DILocation; may be for a
     // compiler-generated instruction, or an explicitly dropped location.
     LineZero,
+    CompilerGenerated,
+    Dropped,
     // DebugLoc does not have a known or currently knowable source location,
     // e.g. the attribution is ambiguous in a way that can't be represented, or
     // determining the correct location is complicated and requires future
@@ -162,6 +164,8 @@ namespace llvm {
     static DebugLoc getTemporary();
     static DebugLoc getUnknown();
     static DebugLoc getLineZero();
+    static DebugLoc getCompilerGenerated();
+    static DebugLoc getDropped();
 
     static DebugLoc getMergedLocations(ArrayRef<DebugLoc> Locs);
     static DebugLoc getMergedLocation(DebugLoc LocA, DebugLoc LocB);
