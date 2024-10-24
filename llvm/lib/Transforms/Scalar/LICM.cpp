@@ -2800,6 +2800,7 @@ static bool hoistMulAddAssociation(Instruction &I, Loop &L,
     auto *NewBO =
         BinaryOperator::Create(Ins->getOpcode(), LHS, RHS,
                                Ins->getName() + ".reass", Ins->getIterator());
+    NewBO->dropLocation();
     NewBO->copyIRFlags(Ins);
     if (VariantOp == Ins)
       VariantOp = NewBO;
@@ -2856,6 +2857,7 @@ static bool hoistBOAssociation(Instruction &I, Loop &L,
 
   auto *NewBO = BinaryOperator::Create(
       Opcode, LV, Inv, BO->getName() + ".reass", BO->getIterator());
+  NewBO->dropLocation();
 
   // Copy NUW for ADDs if both instructions have it.
   if (Opcode == Instruction::Add && BO->hasNoUnsignedWrap() &&

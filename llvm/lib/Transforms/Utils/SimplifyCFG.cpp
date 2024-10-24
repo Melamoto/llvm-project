@@ -2874,7 +2874,8 @@ static void mergeCompatibleInvokesImpl(ArrayRef<InvokeInst *> Invokes,
       // so just form a new block with unreachable terminator.
       BasicBlock *MergedNormalDest = BasicBlock::Create(
           Ctx, II0BB->getName() + ".cont", Func, InsertBeforeBlock);
-      new UnreachableInst(Ctx, MergedNormalDest);
+      auto *UI = new UnreachableInst(Ctx, MergedNormalDest);
+      UI->setDebugLoc(DebugLoc::getTemporary());
       MergedInvoke->setNormalDest(MergedNormalDest);
     }
 

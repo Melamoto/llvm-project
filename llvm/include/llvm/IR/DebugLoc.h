@@ -54,7 +54,6 @@ namespace llvm {
     Normal,
     // DebugLoc intentionally does not have a valid DILocation; may be for a
     // compiler-generated instruction, or an explicitly dropped location.
-    LineZero,
     CompilerGenerated,
     Dropped,
     // DebugLoc does not have a known or currently knowable source location,
@@ -163,7 +162,6 @@ namespace llvm {
 
     static DebugLoc getTemporary();
     static DebugLoc getUnknown();
-    static DebugLoc getLineZero();
     static DebugLoc getCompilerGenerated();
     static DebugLoc getDropped();
 

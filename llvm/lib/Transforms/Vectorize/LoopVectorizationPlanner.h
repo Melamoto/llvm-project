@@ -145,7 +145,7 @@ public:
   VPInstruction *createNaryOp(unsigned Opcode, ArrayRef<VPValue *> Operands,
                               Instruction *Inst = nullptr,
                               const Twine &Name = "") {
-    DebugLoc DL;
+    DebugLoc DL = DebugLoc::getCompilerGenerated();
     if (Inst)
       DL = Inst->getDebugLoc();
     VPInstruction *NewVPInst = createInstruction(Opcode, Operands, DL, Name);
