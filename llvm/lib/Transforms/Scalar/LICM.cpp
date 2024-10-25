@@ -2769,6 +2769,7 @@ static bool hoistMulAddAssociation(Instruction &I, Loop &L,
     auto *RHS = OpIdx == 1 ? Mul : Ins->getOperand(1);
     auto *NewBO = BinaryOperator::Create(Ins->getOpcode(), LHS, RHS,
                                          Ins->getName() + ".reass", Ins);
+    NewBO->setDebugLoc(DebugLoc::getDropped());
     NewBO->copyIRFlags(Ins);
     if (VariantOp == Ins)
       VariantOp = NewBO;
@@ -2821,6 +2822,7 @@ static bool hoistBOAssociation(Instruction &I, Loop &L,
     auto *NewBO =
         BinaryOperator::Create(Opcode, LV, Inv, BO->getName() + ".reass", BO);
     NewBO->copyIRFlags(BO);
+    NewBO->setDebugLoc(DebugLoc::getDropped());
     BO->replaceAllUsesWith(NewBO);
     eraseInstruction(*BO, SafetyInfo, MSSAU);
 
