@@ -15226,6 +15226,12 @@ static Instruction *propagateMetadata(Instruction *Inst, ArrayRef<Value *> VL) {
   return llvm::propagateMetadata(Inst, Insts);
 }
 
+static DebugLoc getDebugLocFromPHI(PHINode &PN) {
+  if (DebugLoc DL = PN.getDebugLoc())
+    return DL;
+  return DebugLoc::getUnknown();
+}
+
 Value *BoUpSLP::vectorizeTree(TreeEntry *E, bool PostponedPHIs) {
   IRBuilderBase::InsertPointGuard Guard(Builder);
 
@@ -15313,7 +15319,7 @@ Value *BoUpSLP::vectorizeTree(TreeEntry *E, bool PostponedPHIs) {
       auto *PH = cast<PHINode>(VL0);
       Builder.SetInsertPoint(PH->getParent(),
                              PH->getParent()->getFirstNonPHIIt());
-      Builder.SetCurrentDebugLocation(PH->getDebugLoc());
+      Builder.SetCurrentDebugLocation(getDebugLocFromPHI(*PH));
       if (PostponedPHIs || !E->VectorizedValue) {
         PHINode *NewPhi = Builder.CreatePHI(VecTy, PH->getNumIncomingValues());
         E->PHI = NewPhi;
@@ -15322,7 +15328,7 @@ Value *BoUpSLP::vectorizeTree(TreeEntry *E, bool PostponedPHIs) {
         // Adjust insertion point once all PHI's have been generated.
         Builder.SetInsertPoint(PH->getParent(),
                                PH->getParent()->getFirstInsertionPt());
-        Builder.SetCurrentDebugLocation(PH->getDebugLoc());
+        Builder.SetCurrentDebugLocation(getDebugLocFromPHI(*PH));
 
         V = FinalShuffle(V, E);
 
@@ -15355,7 +15361,7 @@ Value *BoUpSLP::vectorizeTree(TreeEntry *E, bool PostponedPHIs) {
         }
 
         Builder.SetInsertPoint(IBB->getTerminator());
-        Builder.SetCurrentDebugLocation(PH->getDebugLoc());
+        Builder.SetCurrentDebugLocation(getDebugLocFromPHI(*PH));
         Value *Vec = vectorizeOperand(E, I, /*PostponedPHIs=*/true);
         if (VecTy != Vec->getType()) {
           assert((It != MinBWs.end() || getOperandEntry(E, I)->isGather() ||

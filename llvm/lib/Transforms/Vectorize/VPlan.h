@@ -2025,7 +2025,7 @@ public:
 class VPHeaderPHIRecipe : public VPSingleDefRecipe {
 protected:
   VPHeaderPHIRecipe(unsigned char VPDefID, Instruction *UnderlyingInstr,
-                    VPValue *Start = nullptr, DebugLoc DL = {})
+                    VPValue *Start = nullptr, DebugLoc DL = DebugLoc::getUnknown())
       : VPSingleDefRecipe(VPDefID, ArrayRef<VPValue *>(), UnderlyingInstr, DL) {
     if (Start)
       addOperand(Start);

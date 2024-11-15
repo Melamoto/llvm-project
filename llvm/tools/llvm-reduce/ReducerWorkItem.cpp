@@ -443,7 +443,7 @@ void ReducerWorkItem::print(raw_ostream &ROS, void *p) const {
     }
   } else {
     M->print(ROS, /*AssemblyAnnotationWriter=*/nullptr,
-             /*ShouldPreserveUseListOrder=*/true);
+             /*ShouldPreserveUseListOrder=*/false);
   }
 }
 
@@ -794,7 +794,7 @@ void ReducerWorkItem::writeBitcode(raw_ostream &OutStream) const {
           buildModuleSummaryIndex(*M, nullptr, &PSI));
     }
     WriteBitcodeToFile(getModule(), OutStream,
-                       /*ShouldPreserveUseListOrder=*/true, Index.get());
+                       /*ShouldPreserveUseListOrder=*/false, Index.get());
   }
 }
 
